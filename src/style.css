@@ -1,0 +1,49 @@
+@import './theme.css';
+
+/* svg {
+  stroke-linejoin: miter;
+  stroke-linecap: round;
+} */
+body {
+  height: 100vh;
+  --my-blue: #4edde7;
+  --my-red: #e55c7f;
+  --my-darkblue: #0a66c2aa;
+  --my-green: #44ff77;
+  overflow-y: scroll;
+}
+
+.links {
+  fill: none;
+  stroke: var(--my-darkblue);
+  stroke-opacity: 0.6;
+  stroke-width: 1;
+}
+circle {
+  stroke-width: 1.5;
+  /* transition: all 0.1s ease-in; */
+}
+.main-node {
+  fill: var(--my-red);
+  stroke: var(--my-red);
+  stroke-width: 2.5;
+}
+.main-node:hover {
+  fill: darkred;
+}
+
+.parents {
+  fill: var(--my-blue);
+  stroke: var(--my-blue);
+}
+.parents:hover {
+  fill: var(--my-darkblue);
+}
+
+.children {
+  fill: var(--my-blue);
+  stroke: #fff;
+}
+.children:hover {
+  fill: var(--my-darkblue);
+}
