@@ -10,7 +10,7 @@ export const height = window.innerHeight;
 export const width = window.innerWidth;
 //
 //
-export const svg = select('svg')
+export const svg = select('#canvas')
   // .attr('height', height).attr('width', width);
   //@ts-ignore
   .attr('viewBox', [-width / 2, -height / 2, width, height]);

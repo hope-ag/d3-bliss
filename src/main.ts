@@ -1,32 +1,54 @@
-import { BlissData } from './interfaces';
 import './style.css';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, shareReplay, tap } from 'rxjs';
 import { selectAll } from 'd3';
 
-import { configureSimulation } from './node-generator';
 import jsonData from './assets/super-groups-formatted.json';
+// Modules, constants and interfaces
+import { BlissData } from './interfaces';
+import { configureSimulation } from './node-generator';
 
-// Set up Sizes
+// Selectors
+const supergroups = document.querySelectorAll('.carousel-item');
 
+// Global variables
+var currentIndex = 0;
+var iteration = 0;
+// data
 const dataArray = jsonData.children;
 //@ts-ignore
 const appData: BehaviorSubject<BlissData> = new BehaviorSubject(
-  dataArray[0]
+  dataArray[currentIndex]
 ).pipe(
-  tap((data) => {
-    console.log(data);
-  })
+  shareReplay(),
+  tap((data) => {})
 );
 
-let iteration = 0;
+function cleanUp() {
+  if (iteration >= 1) {
+    selectAll('g').remove();
+  }
+  iteration++;
+}
 
 let dataSub$ = appData.subscribe((data: BlissData) => {
-  iteration < 1 && selectAll('g').remove();
-  ++iteration;
+  cleanUp();
   configureSimulation(data);
 });
 
-// {
-//   data: dataArray[2].data,
-//   children: dataArray[2].children.slice(0, dataArray[2].children.length / 6),
-// }
+// Change SuperGroup dynamically
+// @ts-ignore
+supergroups.forEach((element: HTMLElement) => {
+  // @ts-ignore
+  const idx = +element.dataset.supergroup;
+  element.addEventListener('click', () => {
+    if (idx !== currentIndex) {
+      cleanUp();
+      // @ts-ignore
+      appData.next(dataArray[idx]);
+      currentIndex = idx;
+    }
+    console.log(idx);
+
+    return;
+  });
+});

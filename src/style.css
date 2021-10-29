@@ -47,3 +47,14 @@ circle {
 .children:hover {
   fill: var(--my-darkblue);
 }
+#carousel {
+  max-width: 500px;
+}
+
+.carousel-item {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.carousel-item:hover {
+  color: var(--my-darkblue);
+}

@@ -12,8 +12,58 @@
 </head>
 
 <body class="bg-light">
-  <svg>
+
+  <!-- Supergroup selector -->
+  <div id="carousel"
+    data-bs-touch="false"
+    data-bs-interval="false"
+    class="carousel w-100 mx-auto py-3 carousel-dark slide"
+    data-bs-ride="carousel">
+    <div data-supergroup='UNIV'
+      class="carousel-inner text-danger ">
+      <div data-supergroup="0"
+        class="carousel-item fw-bold text-center  active">
+        Universe
+      </div>
+      <div data-supergroup='1'
+        class="carousel-item fw-bold text-center ">
+        Animate
+      </div>
+      <div data-supergroup='2'
+        class="carousel-item fw-bold text-center ">
+        People
+      </div>
+      <div data-supergroup='3'
+        class="carousel-item fw-bold text-center ">
+        Human Constructs
+      </div>
+      <div data-supergroup='INAM'
+        class="carousel-item fw-bold text-center ">
+        Concept
+      </div>
+    </div>
+    <button class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carousel"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"
+        aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next"
+      type="button"
+      data-bs-target="#carousel"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon"
+        aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Main Primary SVG -->
+  <svg id="canvas">
   </svg>
+  <script src="/node_modules//bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="module"
     src="/src/main.ts"></script>
 </body>
