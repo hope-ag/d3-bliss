@@ -9,13 +9,14 @@ import {
 } from 'd3';
 
 import { svg } from './constants';
+import { cleanUp } from './main';
+import { stateController } from './state';
 //@ts-ignore
 export function configureSimulation(data: BlissData) {
+  cleanUp();
   const root = hierarchy(data);
   const links = root.links();
   const nodes = root.descendants();
-  console.log(links, nodes);
-  var i = 100000;
   //@ts-ignore
   const simulation = forceSimulation(nodes)
     .force(
@@ -23,7 +24,7 @@ export function configureSimulation(data: BlissData) {
       //@ts-ignore
       forceLink(links)
         //@ts-ignore
-        .id((d) => d.data.id || ++i)
+        .id((d) => d.data.data.id || d.data.data.name)
         .distance(50)
         .strength(1)
     )
@@ -51,13 +52,22 @@ export function configureSimulation(data: BlissData) {
       !d.parent ? 'main-node' : d.children ? 'parents' : 'children'
     )
     .attr('r', (d) => (d.children ? 15 : 10))
-    .on('click', (e, d) => console.log(d))
+    .on('click', (e, d) => {
+      if (d.data.children && d.depth > 0) {
+        configureSimulation(d.data);
+        // @ts-ignore
+        stateController.next({ pristene: false, currentIndex: 20 });
+        console.log(d.data.data);
+      } else {
+        console.log(d.data.data);
+      }
+    })
     .call(
       //@ts-ignore
       drag().on('start', dragstarted).on('drag', dragged).on('end', dragended)
     );
 
-  node.append('title').text((d) => d.data.name || d.data.data.name);
+  node.append('title').text((d) => d.data.data.name);
 
   simulation.on('tick', () => {
     link

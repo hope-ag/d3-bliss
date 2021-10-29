@@ -1,9 +1,8 @@
+import { appData, dataArray, stateController } from './state';
 import './style.css';
 import 'bootstrap';
-import { BehaviorSubject, shareReplay, tap } from 'rxjs';
 import { selectAll } from 'd3';
 
-import jsonData from './assets/super-groups-formatted.json';
 // Modules, constants and interfaces
 import { BlissData } from './interfaces';
 import { configureSimulation } from './node-generator';
@@ -14,24 +13,22 @@ const supergroups = document.querySelectorAll('.carousel-item');
 // Global variables
 var currentIndex = 0;
 var iteration = 0;
-// data
-const dataArray = jsonData.children;
-//@ts-ignore
-const appData: BehaviorSubject<BlissData> = new BehaviorSubject(
-  dataArray[currentIndex]
-).pipe(
-  shareReplay(),
-  tap((data) => {})
-);
+let isNodeUntouched = true;
 
-function cleanUp() {
+export function cleanUp() {
   if (iteration >= 1) {
     selectAll('g').remove();
   }
   iteration++;
 }
 
-let dataSub$ = appData.subscribe((data: BlissData) => {
+stateController.subscribe((data) => {
+  isNodeUntouched = data.pristene;
+  currentIndex = data.currentIndex;
+});
+
+// @ts-ignore
+appData.subscribe((data: BlissData) => {
   cleanUp();
   configureSimulation(data);
 });
@@ -42,13 +39,15 @@ supergroups.forEach((element: HTMLElement) => {
   // @ts-ignore
   const idx = +element.dataset.supergroup;
   element.addEventListener('click', () => {
-    if (idx !== currentIndex) {
+    if (idx !== currentIndex || !isNodeUntouched) {
+      console.log(isNodeUntouched);
       cleanUp();
       // @ts-ignore
       appData.next(dataArray[idx]);
       currentIndex = idx;
+      // @ts-ignore
+      stateController.next({ pristene: true, currentIndex });
     }
-    console.log(idx);
 
     return;
   });

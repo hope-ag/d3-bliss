@@ -1,5 +1,4 @@
 export interface BlissData {
-  id?: string;
   data: {
     id?: string;
     name: string;

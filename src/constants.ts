@@ -1,4 +1,5 @@
 import { select } from 'd3-selection';
+import { BehaviorSubject } from 'rxjs';
 
 export const margins = {
   left: 12,
@@ -9,6 +10,7 @@ export const margins = {
 export const height = window.innerHeight;
 export const width = window.innerWidth;
 //
+
 //
 export const svg = select('#canvas')
   // .attr('height', height).attr('width', width);
