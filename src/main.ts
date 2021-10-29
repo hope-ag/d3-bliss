@@ -1,4 +1,5 @@
 import './style.css';
+import 'bootstrap';
 import { BehaviorSubject, shareReplay, tap } from 'rxjs';
 import { selectAll } from 'd3';
 
